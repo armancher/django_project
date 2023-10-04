@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="question">
+    <h2>{{ question.title }}</h2>
+    <p>{{ question.body }}</p>
+    <p>Created by: {{ question.user }}</p>
+    <p>Created on: {{ question.created_at }}</p>
+    <p>Last modified: {{ question.updated_at }}</p>
+    <p>Vote count: {{ question.votes }}</p>
+    <p>Tags: 
+        {% for tag in question.tags.all %}
+        <p> {{ tag.name }} </p>
+        {% endfor %}</p>
+
+    <a href="{% url 'questions:question_upvote' question.id %}">
+      
+      upvote
+    </a>
+
+    <a href="{% url 'questions:question_downvote' question.id %}">
+      
+     downvote
+    </a>
+
+    <a href="{% url 'questions:question_update' question.id %}">Edit Question</a>
+  </div>
+
+  <h2>Answers</h2>
+  {% for answer in answers %}
+    <div class="answer">
+      <p>{{ answer.body }}</p>
+      <p>Created at: {{ answer.created_at }}</p>
+      <p>Last modified: {{ answer.updated_at }}</p>
+      <p>Vote count: {{ answer.votes }}</p>
+      <p>Created by: {{ answer.user }}</p>
+
+      <a href="{% url 'questions:answer_upvote' answer.id %}">
+        
+        Upvote
+      </a>
+
+      <a href="{% url 'questions:answer_downvote' answer.id %}">
+       
+       Downvote
+      </a>
+      <a href="{% url 'questions:answer_update' answer.id %}">Edit answer</a>
+    </div>
+  {% endfor %}
+
+  <h2>Answer Question</h2>
+  <form method="post" action="{% url 'questions:answer_create' question.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="submit" >
+  </form>
+{% endblock %}

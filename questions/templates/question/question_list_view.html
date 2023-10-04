@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for question in questions %}
+<p> title : {{ question.title}} </p>
+<p> user: {{question.user}} </p>
+<p> modifid date : {{question.created_at}} </p>
+<p> tag: {{ question.tags.all}} </p>
+{% endfor %}
+{% endblock %}
